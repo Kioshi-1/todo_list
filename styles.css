@@ -1,0 +1,141 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f5ebe0;
+  margin: 0;
+  font-family: 'Courier New', Courier, monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: #333;
+  font-size: 20px;
+}
+
+.container {
+  background-color: #fdfbf7;
+  padding: 20px;
+  max-width: 600px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+  border-radius: 10px;
+  width: 100%;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  font-size: 20px;
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+  outline: none;
+  border-radius: 5px;
+  font-family: inherit;
+  transition: box-shadow .2s ease;
+}
+
+input:focus {
+  box-shadow: 0 0 10px rgba(163, 177, 138, .7);
+}
+
+button {
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, .1);
+}
+
+button:focus-visible {
+  outline: 2px solid #555;
+  outline-offset: 3px;
+}
+
+.todo-btn {
+  background-color: #e0c3a3;
+  padding: 7px;
+  font-size: 20px;
+  font-weight: 600;
+  transition: background-color .2s ease, transform .2s ease;
+  width: 100%;
+}
+
+.todo-btn:hover {
+  background-color: #d3b28c;
+  transform: scale(1.01);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.todo-text {
+  flex: 1;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.todo-actions {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.btn-done,
+.btn-delete {
+  padding: 10px;
+  font-size: 16px;
+  transition: background-color .2s ease;
+}
+
+.btn-done:hover,
+.btn-delete:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .2);
+}
+
+.btn-done {
+  background-color: #a3b18a;
+}
+
+.btn-done:hover {
+  background-color: #8f9d79;
+}
+
+.btn-delete {
+  background-color: #c49b9b;
+}
+
+.btn-delete:hover {
+  background-color: #ad8686;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: #888;
+  transition: color .2s ease;
+}
