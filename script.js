@@ -2,16 +2,47 @@ const todoForm = document.getElementById('todo-form');
 const todoInput = document.getElementById('todo-input');
 const todoList = document.getElementById('todo-list');
 
-todoForm.addEventListener("submit", addTask);
-todoList.addEventListener("click", event => {
-  if (event.target.classList.contains("btn-done")) {
-    doneTask(event);
-  }
+let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
-  if (event.target.classList.contains("btn-delete")) {
-    deleteTask(event);
-  }
-});
+todoForm.addEventListener("submit", addTask);
+
+function saveTasks() {
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function renderTasks() {
+  todoList.innerHTML = "";
+  tasks.forEach(task => {
+    const li = document.createElement('li');  
+    li.dataset.id = task.id;
+
+    const span = document.createElement('span');
+    span.textContent = task.text;
+    span.classList.add("todo-text");
+    if (task.completed) {
+      span.classList.add("completed");
+    }
+
+    const actions = document.createElement('div');
+    actions.classList.add("todo-actions");
+
+    const btnDone = document.createElement('button');
+    btnDone.type = "button";
+    btnDone.classList.add("btn-done");
+    btnDone.textContent = "Выполнено";
+    btnDone.addEventListener('click', () => doneTask(task.id));
+
+    const btnDelete = document.createElement('button');
+    btnDelete.type = "button";
+    btnDelete.classList.add("btn-delete");
+    btnDelete.textContent = "Удалить";
+    btnDelete.addEventListener('click', () => deleteTask(task.id));
+
+    li.append(span, actions);
+    actions.append(btnDone, btnDelete);
+    todoList.appendChild(li);
+  });
+}
 
 function addTask(event) {
   event.preventDefault();
@@ -19,38 +50,35 @@ function addTask(event) {
     return;
   }
   
-  const inputValue = todoInput.value;
-  const li = document.createElement('li');  
-  const span = document.createElement('span');
-  span.textContent = inputValue;
-  span.classList.add("todo-text");
-  const actions = document.createElement('div');
-  actions.classList.add("todo-actions");
-  const btnDone = document.createElement('button');
-  btnDone.type = "button";
-  btnDone.classList.add("btn-done");
-  btnDone.textContent = "Выполнено";
-  const btnDelete = document.createElement('button');
-  btnDelete.type = "button";
-  btnDelete.classList.add("btn-delete");
-  btnDelete.textContent = "Удалить";
+  const taskObj = {
+    id: crypto.randomUUID(),
+    text: todoInput.value,
+    completed: false
+  };
 
-  li.append(span, actions);
-  actions.append(btnDone, btnDelete);
-  todoList.appendChild(li);
+  tasks.push(taskObj);
+
+  saveTasks();
+  renderTasks();
   
   todoInput.value = '';
 }
 
-function doneTask(event) {
-  const task = event.target.closest("li");
-  const text = task.querySelector(".todo-text");
-
-  text.classList.toggle('completed');
+function doneTask(id) {
+   const foundTask = tasks.find(t => t.id === id);
+   if (foundTask) {
+    foundTask.completed = !foundTask.completed;
+   }
+   saveTasks();
+   renderTasks();
 }
 
-function deleteTask(event) {
-  event.target.closest("li").remove();
+function deleteTask(id) {
+  tasks = tasks.filter(t => t.id !== id);
+
+  saveTasks();
+  renderTasks();
 }
 
-// ДОБАВИТЬ LOCALSTORAGE
+
+renderTasks();
